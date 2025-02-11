@@ -13,6 +13,9 @@ func Hello(name, language string) string {
 	if (language == spanish) {
 		return spanishHelloPrefix + name
 	}
+	if (language == "French") {
+		return "Bonjour " + name
+	}
 	return englishHelloPrefix + name
 }
 
