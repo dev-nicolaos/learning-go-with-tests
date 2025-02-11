@@ -2,23 +2,25 @@ package main
 
 import "fmt"
 
-const english = "English"
-const spanish = "Spanish"
-const french = "French"
-const hello = "Hello"
+const (
+	english = "English"
+	spanish = "Spanish"
+	french  = "French"
 
-var languages = map[string]map[string]string {
-	english: map[string]string {
+	hello = "Hello"
+)
+
+var languages = map[string]map[string]string{
+	english: map[string]string{
 		hello: hello,
 	},
-	spanish: map[string]string {
+	spanish: map[string]string{
 		hello: "Hola",
 	},
-	french: map[string]string {
+	french: map[string]string{
 		hello: "Bonjour",
 	},
 }
-
 
 func Hello(name, language string) string {
 	if name == "" {
