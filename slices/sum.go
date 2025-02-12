@@ -7,10 +7,9 @@ func Sum(numbers []int) (sum int) {
 	return
 }
 
-func SumAll(numberCollections ...[]int) []int {
-	sums := make([]int, len(numberCollections))
-	for i, collection := range numberCollections {
-		sums[i] = Sum(collection)
+func SumAll(numberCollections ...[]int) (sums []int) {
+	for _, collection := range numberCollections {
+		sums = append(sums, Sum(collection))
 	}
-	return sums
+	return
 }
