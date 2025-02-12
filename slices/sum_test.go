@@ -16,6 +16,13 @@ func TestSum(t *testing.T) {
 	}
 }
 
+func assertEqualSlices(t testing.TB, want, got []int) {
+	t.Helper()
+	if !slices.Equal(want, got) {
+		t.Errorf("Expected %v, but got %v", want, got)
+	}
+}
+
 func TestSumAll(t *testing.T) {
 	numbers1 := []int{1, 3, 5}
 	numbers2 := []int{2}
@@ -24,9 +31,7 @@ func TestSumAll(t *testing.T) {
 	got := SumAll(numbers1, numbers2, numbers3)
 	want := []int{9, 2, 5}
 
-	if !slices.Equal(got, want) {
-		t.Errorf("Expected %v, but got %v", want, got)
-	}
+	assertEqualSlices(t, want, got)
 }
 
 func TestSumAllTails(t *testing.T) {
@@ -38,17 +43,13 @@ func TestSumAllTails(t *testing.T) {
 		got := SumAllTails(numbers1, numbers2, numbers3)
 		want := []int{8, 0, 10}
 
-		if !slices.Equal(got, want) {
-			t.Errorf("Expected %v, but got %v", want, got)
-		}
+		assertEqualSlices(t, want, got)
 	})
 
 	t.Run("handles empty slices cleanly", func(t *testing.T) {
 		got := SumAllTails([]int{})
 		want := []int{0}
 
-		if !slices.Equal(got, want) {
-			t.Errorf("Expected %v, but got %v", want, got)
-		}
+		assertEqualSlices(t, want, got)
 	})
 }
