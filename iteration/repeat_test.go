@@ -11,6 +11,11 @@ func TestRepeat(t *testing.T) {
 	}
 }
 
+func ExampleRepeat() {
+	fmt.Println(Repeat("T", 4))
+	// Output: "TTTT"
+}
+
 func BenchmarkRepeat(b *testing.B) {
 	for range b.N {
 		Repeat("a", 7)
