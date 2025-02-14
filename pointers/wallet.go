@@ -16,6 +16,10 @@ func (w *Wallet) Deposit(amount Litcoin) {
 	w.balance += amount
 }
 
+func (w *Wallet) Withdraw(amount Litcoin) {
+	w.balance -= amount
+}
+
 func (w *Wallet) Balance() Litcoin {
 	return w.balance
 }
