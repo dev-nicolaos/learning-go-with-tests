@@ -11,14 +11,14 @@ type Circle struct {
 	Radius  float64
 }
 
-func (rectangle *Rectangle) Perimeter() float64 {
-	return rectangle.Width*2 + rectangle.Height*2
+func (r *Rectangle) Perimeter() float64 {
+	return r.Width*2 + r.Height*2
 }
 
-func (rectangle *Rectangle) Area() float64 {
-	return rectangle.Width * rectangle.Height
+func (r *Rectangle) Area() float64 {
+	return r.Width * r.Height
 }
 
-func (circle *Circle) Area() float64 {
-	return 2*circle.Radius*math.Pi
+func (c *Circle) Area() float64 {
+	return 2*c.Radius*math.Pi
 }
