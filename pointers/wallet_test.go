@@ -5,7 +5,7 @@ import "testing"
 func assertError(t testing.TB, err error, reason string) {
 	t.Helper()
 	if err == nil {
-		t.Error("Expected an error but was given nil")
+		t.Fatal("Expected an error but was given nil")
 	}
 
 	if err.Error() != reason {
