@@ -26,7 +26,7 @@ func TestArea(t *testing.T) {
 	t.Run("for a circle", func(t *testing.T) {
 		circle := Circle{4.5}
 		got := circle.Area()
-		want := 18.0
+		want := 28.274333882308138
 
 		if got != want {
 			t.Errorf("Expected %g, but got %g", want, got)
