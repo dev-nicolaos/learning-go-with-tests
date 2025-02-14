@@ -1,6 +1,9 @@
 package pointers
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 type Litcoin int
 
@@ -16,8 +19,12 @@ func (w *Wallet) Deposit(amount Litcoin) {
 	w.balance += amount
 }
 
-func (w *Wallet) Withdraw(amount Litcoin) {
+func (w *Wallet) Withdraw(amount Litcoin) error {
+	if amount > w.balance {
+		return errors.New("Insufficent funds")
+	}
 	w.balance -= amount
+	return nil
 }
 
 func (w *Wallet) Balance() Litcoin {
