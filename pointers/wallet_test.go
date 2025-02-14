@@ -2,6 +2,13 @@ package pointers
 
 import "testing"
 
+func assertNoError(t testing.TB, err error) {
+	t.Helper()
+	if err != nil {
+		t.Fatalf("Expected no error but got one")
+	}
+}
+
 func assertError(t testing.TB, realErr error, expectedErr error) {
 	t.Helper()
 	if realErr == nil {
@@ -31,8 +38,9 @@ func TestWallet(t *testing.T) {
 
 	t.Run("withdraw", func(t *testing.T) {
 		wallet := Wallet{balance: Litcoin(8)}
-		wallet.Withdraw(Litcoin(3))
+		err := wallet.Withdraw(Litcoin(3))
 
+		assertNoError(t, err)
 		assertBalance(t, wallet, Litcoin(5))
 	})
 
