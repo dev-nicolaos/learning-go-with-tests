@@ -2,14 +2,14 @@ package pointers
 
 import "testing"
 
-func assertError(t testing.TB, err error, reason string) {
+func assertError(t testing.TB, realErr error, expectedErr error) {
 	t.Helper()
-	if err == nil {
+	if realErr == nil {
 		t.Fatal("Expected an error but was given nil")
 	}
 
-	if err.Error() != reason {
-		t.Errorf("Expected error with reason %s, but recieved %s", reason, err)
+	if realErr != expectedErr {
+		t.Errorf("Expected error with reason %s, but recieved %s", realErr, expectedErr)
 	}
 }
 
@@ -41,7 +41,7 @@ func TestWallet(t *testing.T) {
 		wallet := Wallet{balance: startingBalance}
 		err := wallet.Withdraw(Litcoin(9))
 
-		assertError(t, err, "Insufficent funds")
+		assertError(t, err, ErrInsufficentFunds)
 		assertBalance(t, wallet, startingBalance)
 	})
 }
