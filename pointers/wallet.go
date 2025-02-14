@@ -5,6 +5,8 @@ import (
 	"fmt"
 )
 
+var ErrInsufficentFunds = errors.New("Insufficent funds")
+
 type Litcoin int
 
 func (l Litcoin) String() string {
@@ -21,7 +23,7 @@ func (w *Wallet) Deposit(amount Litcoin) {
 
 func (w *Wallet) Withdraw(amount Litcoin) error {
 	if amount > w.balance {
-		return errors.New("Insufficent funds")
+		return ErrInsufficentFunds
 	}
 	w.balance -= amount
 	return nil
