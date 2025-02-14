@@ -2,39 +2,42 @@ package pointers
 
 import "testing"
 
+func assertError(t testing.TB, err error) {
+	t.Helper()
+	if err == nil {
+		t.Error("Expected an error but was given nil")
+	}
+}
+
+func assertBalance(t testing.TB, wallet Wallet, expectedBalance Litcoin) {
+	t.Helper()
+	if wallet.balance != expectedBalance {
+		t.Errorf("Expected %s but got %s", expectedBalance, wallet.balance)
+	}
+}
+
 func TestWallet(t *testing.T) {
 	t.Run("deposit", func(t *testing.T) {
-
 		wallet := Wallet{}
 
 		wallet.Deposit(Litcoin(10))
 
-		got := wallet.Balance()
-		want := Litcoin(10)
-
-		if want != got {
-			t.Errorf("Expected %s but got %s", want, got)
-		}
+		assertBalance(t, wallet, Litcoin(10))
 	})
 
 	t.Run("withdraw", func(t *testing.T) {
 		wallet := Wallet{balance: Litcoin(8)}
 		wallet.Withdraw(Litcoin(3))
 
-		got := wallet.Balance()
-		want := Litcoin(5)
-
-		if want != got {
-			t.Errorf("Expected %s but got %s", want, got)
-		}
+		assertBalance(t, wallet, Litcoin(5))
 	})
 
 	t.Run("withdraw errors with insufficient balance", func(t *testing.T) {
-		wallet := Wallet{balance: Litcoin(7)}
-		error := wallet.Withdraw(Litcoin(9))
+		startingBalance := Litcoin(7)
+		wallet := Wallet{balance: startingBalance}
+		err := wallet.Withdraw(Litcoin(9))
 
-		if error == nil {
-			t.Error("Expected an insufficent funds error to be returned")
-		}
+		assertError(t, err)
+		assertBalance(t, wallet, startingBalance)
 	})
 }
