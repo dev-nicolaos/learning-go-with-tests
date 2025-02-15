@@ -7,7 +7,7 @@ func (e DictionaryErr) Error() string {
 }
 
 const (
-	ErrNotFound   = DictionaryErr("No definition found")
+	ErrNotFound      = DictionaryErr("No definition found")
 	ErrAlreadyExists = DictionaryErr("Tried to add word to dictionary that already exists")
 )
 
@@ -23,17 +23,24 @@ func (d Dictionary) Search(key string) (string, error) {
 func (d Dictionary) Add(word, definition string) error {
 	_, err := d.Search(word)
 
-	switch (err) {
-		case ErrNotFound:
-			d[word] = definition
-		case nil:
-			return ErrAlreadyExists
-		default:
-			return err
+	switch err {
+	case ErrNotFound:
+		d[word] = definition
+	case nil:
+		return ErrAlreadyExists
+	default:
+		return err
 	}
 	return nil
 }
 
-func (d Dictionary) Update(word, definition string) {
+func (d Dictionary) Update(word, definition string) error {
+	_, err := d.Search(word)
+
+	if err != nil {
+		return err
+	}
+
 	d[word] = definition
+	return nil
 }

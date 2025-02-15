@@ -13,7 +13,15 @@ func assertError(t testing.TB, expectedErr, realErr error) {
 	}
 }
 
+func assertNoError(t testing.TB, err error) {
+	t.Helper()
+	if err != nil {
+		t.Fatalf("Unexpected error %s", err)
+	}
+}
+
 func assertMatch(t testing.TB, want, got string) {
+	t.Helper()
 	if want != got {
 		t.Errorf("Expected %q but got %q", want, got)
 	}
@@ -26,10 +34,7 @@ func TestSearch(t *testing.T) {
 
 		got, err := dictionary.Search("test")
 
-		if err != nil {
-			t.Fatal("Expected no error but got one")
-		}
-
+		assertNoError(t, err)
 		assertMatch(t, want, got)
 	})
 	t.Run("returns an error when no def", func(t *testing.T) {
@@ -42,15 +47,12 @@ func TestSearch(t *testing.T) {
 
 func TestAdd(t *testing.T) {
 	t.Run("new word", func(t *testing.T) {
-
 		dictionary := Dictionary{}
 		word := "foo"
 		definition := "bar"
 		err := dictionary.Add(word, definition)
 
-		if err != nil {
-			t.Fatalf("Unexpected error %s", err)
-		}
+		assertNoError(t, err)
 		assertMatch(t, definition, dictionary[word])
 	})
 
@@ -65,11 +67,22 @@ func TestAdd(t *testing.T) {
 }
 
 func TestUpdate(t *testing.T) {
-	word := "foo"
-	dictionary := Dictionary{word: "bar"}
-	newDefinition := "baz"
+	t.Run("existing word", func(t *testing.T) {
+		word := "foo"
+		dictionary := Dictionary{word: "bar"}
+		newDefinition := "baz"
 
-	dictionary.Update(word, newDefinition)
+		err := dictionary.Update(word, newDefinition)
 
-	assertMatch(t, newDefinition, dictionary[word])
+		assertNoError(t, err)
+		assertMatch(t, newDefinition, dictionary[word])
+	})
+
+	t.Run("new word", func(t *testing.T) {
+		dictionary := Dictionary{}
+
+		err := dictionary.Update("foo", "bar")
+
+		assertError(t, ErrNotFound, err)
+	})
 }
