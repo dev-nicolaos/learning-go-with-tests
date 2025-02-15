@@ -63,3 +63,13 @@ func TestAdd(t *testing.T) {
 		assertError(t, ErrAlreadyExists, err)
 	})
 }
+
+func TestUpdate(t *testing.T) {
+	word := "foo"
+	dictionary := Dictionary{word: "bar"}
+	newDefinition := "baz"
+
+	dictionary.Update(word, newDefinition)
+
+	assertMatch(t, newDefinition, dictionary[word])
+}
