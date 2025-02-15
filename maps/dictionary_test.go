@@ -41,10 +41,25 @@ func TestSearch(t *testing.T) {
 }
 
 func TestAdd(t *testing.T) {
-	dictionary := Dictionary{}
-	word := "foo"
-	definition := "bar"
-	dictionary.Add(word, definition)
+	t.Run("new word", func(t *testing.T) {
 
-	assertMatch(t, definition, dictionary[word])
+		dictionary := Dictionary{}
+		word := "foo"
+		definition := "bar"
+		err := dictionary.Add(word, definition)
+
+		if err != nil {
+			t.Fatalf("Unexpected error %s", err)
+		}
+		assertMatch(t, definition, dictionary[word])
+	})
+
+	t.Run("existing word", func(t *testing.T) {
+		word := "foo"
+		dictionary := Dictionary{word: "bar"}
+		newDefinition := "baz"
+		err := dictionary.Add(word, newDefinition)
+
+		assertError(t, ErrAlreadyExists, err)
+	})
 }
