@@ -13,6 +13,12 @@ func assertError(t testing.TB, expectedErr, realErr error) {
 	}
 }
 
+func assertMatch(t testing.TB, want, got string) {
+	if want != got {
+		t.Errorf("Expected %q but got %q", want, got)
+	}
+}
+
 func TestSearch(t *testing.T) {
 	t.Run("returns def when available", func(t *testing.T) {
 		want := "this is just a test"
@@ -24,9 +30,7 @@ func TestSearch(t *testing.T) {
 			t.Fatal("Expected no error but got one")
 		}
 
-		if got != want {
-			t.Errorf("Expected %q, but got %q", want, got)
-		}
+		assertMatch(t, want, got)
 	})
 	t.Run("returns an error when no def", func(t *testing.T) {
 		dictionary := Dictionary{}
@@ -41,7 +45,6 @@ func TestAdd(t *testing.T) {
 	word := "foo"
 	definition := "bar"
 	dictionary.Add(word, definition)
-	if dictionary[word] != definition {
-		t.Errorf("Expected %q but got %q", definition, dictionary[word])
-	}
+
+	assertMatch(t, definition, dictionary[word])
 }
