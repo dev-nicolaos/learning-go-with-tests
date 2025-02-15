@@ -2,10 +2,14 @@ package main
 
 import "testing"
 
-func assertError(t testing.TB, err error) {
+func assertError(t testing.TB, expectedErr, realErr error) {
 	t.Helper()
-	if err == nil {
-		t.Error("Expected an error but recieved nil")
+	if realErr == nil {
+		t.Fatal("Expected an error but recieved nil")
+	}
+
+	if expectedErr != realErr {
+		t.Errorf("Expected error %s, but recieved %s", expectedErr, realErr)
 	}
 }
 
@@ -29,6 +33,6 @@ func TestSearch(t *testing.T) {
 		dictionary := Dictionary{}
 		_, err := dictionary.Search("foo")
 
-		assertError(t, err)
+		assertError(t, ErrNotFound, err)
 	})
 }

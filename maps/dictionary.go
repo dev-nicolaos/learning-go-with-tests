@@ -5,9 +5,11 @@ import "fmt"
 
 type Dictionary map[string]string
 
+var ErrNotFound = errors.New(fmt.Sprintf("No definition found"))
+
 func (d Dictionary) Search(key string) (string, error) {
 	if d[key] == "" {
-		return "", errors.New(fmt.Sprintf("No definition found for %q", key))
+		return "", ErrNotFound
 	}
 	return d[key], nil
 }
