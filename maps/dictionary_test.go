@@ -86,3 +86,13 @@ func TestUpdate(t *testing.T) {
 		assertError(t, ErrNotFound, err)
 	})
 }
+
+func TestDelete(t *testing.T) {
+	word := "foo"
+	dictionary := Dictionary{word: "bar"}
+
+	dictionary.Delete(word)
+	_, err := dictionary.Search(word)
+
+	assertError(t, ErrNotFound, err)
+}
