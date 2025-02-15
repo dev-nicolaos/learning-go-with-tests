@@ -3,9 +3,11 @@ package main
 import "errors"
 import "fmt"
 
-func Search(dictionary map[string]string, key string) (string, error) {
-	if dictionary[key] == "" {
+type Dictionary map[string]string
+
+func (d Dictionary) Search(key string) (string, error) {
+	if d[key] == "" {
 		return "", errors.New(fmt.Sprintf("No definition found for %q", key))
 	}
-	return dictionary[key], nil
+	return d[key], nil
 }

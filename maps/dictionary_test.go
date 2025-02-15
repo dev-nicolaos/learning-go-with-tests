@@ -13,9 +13,9 @@ func TestSearch(t *testing.T) {
 	t.Run("returns def when available", func(t *testing.T) {
 
 		want := "this is just a test"
-		dictionary := map[string]string{"test": want}
+		dictionary := Dictionary{"test": want}
 
-		got, err := Search(dictionary, "test")
+		got, err := dictionary.Search("test")
 
 		if err != nil {
 			t.Fatal("Expected no error but got one")
@@ -26,8 +26,8 @@ func TestSearch(t *testing.T) {
 		}
 	})
 	t.Run("returns an error when no def", func(t *testing.T) {
-		dictionary := map[string]string{}
-		_, err := Search(dictionary, "foo")
+		dictionary := Dictionary{}
+		_, err := dictionary.Search("foo")
 
 		assertError(t, err)
 	})
