@@ -15,7 +15,6 @@ func assertError(t testing.TB, expectedErr, realErr error) {
 
 func TestSearch(t *testing.T) {
 	t.Run("returns def when available", func(t *testing.T) {
-
 		want := "this is just a test"
 		dictionary := Dictionary{"test": want}
 
@@ -35,4 +34,14 @@ func TestSearch(t *testing.T) {
 
 		assertError(t, ErrNotFound, err)
 	})
+}
+
+func TestAdd(t *testing.T) {
+	dictionary := Dictionary{}
+	word := "foo"
+	definition := "bar"
+	dictionary.Add(word, definition)
+	if dictionary[word] != definition {
+		t.Errorf("Expected %q but got %q", definition, dictionary[word])
+	}
 }
